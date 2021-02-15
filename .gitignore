@@ -118,7 +118,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+config.json
 .venv
 env/
 venv/
@@ -318,5 +318,11 @@ fabric.properties
 
 # Mac
 .DS_Store
+
+# config
+config.json
+
+# docker
+docker/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django,pycharm
