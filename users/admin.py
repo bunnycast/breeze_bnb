@@ -1,8 +1,11 @@
 from django.contrib import admin
 
-from . import models
+from users.models import User
 
 
-@admin.register(models.User)
+@admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    pass
+
+    """ Custom User Admin """
+    list_display = ['username', "email", 'gender', 'language', 'currency', 'is_superHost']
+    list_filter = ('language', 'currency', 'is_superHost',)
