@@ -6,8 +6,10 @@ from rooms.models import Amenity, Facility, HouseRule, RoomType, Room, Photo
 @admin.register(Amenity, Facility, HouseRule, RoomType)
 class ItemAdmin(admin.ModelAdmin):
     """ Item Admin Definition """
+    list_display = ('name', 'used_by',)
 
-    pass
+    def used_by(self, obj):
+        return obj.rooms.count()
 
 
 @admin.register(Room)
@@ -52,6 +54,7 @@ class RoomAdmin(admin.ModelAdmin):
         'instant_book',
         'count_amenities',
         'count_photos',
+        'total_rating',
     )
 
     ordering = ('name', 'price', 'bedrooms',)
