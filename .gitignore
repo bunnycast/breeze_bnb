@@ -318,6 +318,7 @@ fabric.properties
 
 # Mac
 .DS_Store
+uploads/
 
 # config
 config.json
