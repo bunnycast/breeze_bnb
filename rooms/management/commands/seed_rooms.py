@@ -20,7 +20,7 @@ class Command(BaseCommand):
         host_candidate = User.objects.filter(is_superuser=False)
         room_types = RoomType.objects.all()
         seeder.add_entity(Room, number, {
-            'name': seeder.faker.address(),
+            'name': lambda x: seeder.faker.address(),
             'host': lambda x: random.choice(host_candidate),
             'room_type': lambda x: random.choice(room_types),
             'price': lambda x: random.randint(0, 300),
@@ -38,7 +38,7 @@ class Command(BaseCommand):
 
         for pk in created_clean:
             room = Room.objects.get(pk=pk)
-            for i in range(3, random.randint(10, 30)):
+            for i in range(3, random.randint(10, 17)):
                 Photo.objects.create(
                     caption=seeder.faker.sentence(),
                     room=room,
