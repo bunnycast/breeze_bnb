@@ -93,4 +93,8 @@ class Room(core_models.TimeStampedModel):
         all_ratings = 0
         for review in all_reviews:
             all_ratings += review.rating_average()
-        return all_ratings / len(all_reviews)
+        try:
+            rating = all_ratings / len(all_reviews)
+        except ZeroDivisionError:
+            rating = '-'
+        return rating
