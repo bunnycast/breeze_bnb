@@ -3,20 +3,24 @@ from math import ceil
 
 from django.core.paginator import Paginator, EmptyPage
 from django.shortcuts import render, redirect
+from django.utils import timezone
+from django.views.generic import ListView
 
 from rooms.models import Room
 
 
-def all_rooms(request):
-    page = request.GET.get('page', 1)
-    rooms_list = Room.objects.all()
+class HomeView(ListView):
 
-    paginator = Paginator(rooms_list, 7, orphans=4)
-    try:
-        rooms = paginator.page(int(page))
-        return render(request, "rooms/home.html", {"page": rooms})
-    except EmptyPage:
-        return redirect('/')
+    """ HomeView Definition """
 
+    model = Room
+    paginate_by = 10
+    ordering = 'created_at'
+    paginate_orphans = 3
+    context_object_name = 'rooms'
 
-
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        now = timezone.now()
+        context['now'] = now
+        return context
