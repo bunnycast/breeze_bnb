@@ -10,7 +10,7 @@
     <form method="GET" action="{% url "rooms:search" %}">
         <div>
             <label for="city">City</label>
-            <input value="{{ city }}" id="city" placeholder="Search By City"/>
+            <input value="{{ city }}" id="city" name="city" placeholder="Search By City" />
         </div>
         <div>
             <label for="country">Country</label>
@@ -57,8 +57,8 @@
             <input type="checkbox" name="instant" {% if instant %}checked{% endif %} />
         </div>
         <div>
-            <label for="super_host">By SuperHost Only?</label>
-            <input type="checkbox" name="super_host" {% if super_host %}checked{% endif %} />
+            <label for="superHost">By SuperHost Only?</label>
+            <input type="checkbox" name="superHost" {% if superHost %}checked{% endif %} />
         </div>
         <div>
             <h3>Amenities</h3>
@@ -98,4 +98,10 @@
         </div>
         <button>Search</button>
     </form>
+
+    <h3>Results</h3>
+    {% for room in rooms %}
+        <h3>{{ room.name }}</h3>
+    {% endfor %}
+
 {% endblock %}
