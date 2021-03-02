@@ -1,6 +1,6 @@
 from django.urls import path
 
-from views import RoomDetail, EditRoom, CreateRoom, search
+from views import RoomDetail, EditRoom, CreateRoom, SearchView
 
 app_name = 'rooms'
 
@@ -8,5 +8,5 @@ urlpatterns = [
     path('create/', CreateRoom.as_view(), name='create'),
     path('<int:pk>/', RoomDetail.as_view(), name="detail"),
     path('<int:pk>/edit/', EditRoom.as_view(), name='edit'),
-    path('search/', search, name='search')
+    path('search/', SearchView.as_view(), name='search')
 ]
