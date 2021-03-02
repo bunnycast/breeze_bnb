@@ -4,12 +4,15 @@
     Search
 {% endblock page_title %}
 
+{% block search-bar %}
+{% endblock search-bar %}
+
 {% block content %}
     <h1> Search </h1>
 
     <form method="GET" action="{% url "rooms:search" %}">
         {{ form.as_p }}
-        <button type="submit" value="search">search </button>
+        <button>search </button>
     </form>
 
     <h3>Results</h3>
