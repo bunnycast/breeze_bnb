@@ -49,6 +49,7 @@ class RoomAdmin(admin.ModelAdmin):
     )
 
     list_display = (
+        'id',
         'name',
         'country',
         'city',
