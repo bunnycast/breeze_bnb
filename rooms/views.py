@@ -1,12 +1,7 @@
-from datetime import datetime
-from math import ceil
-
-from django.core.paginator import Paginator, EmptyPage
 from django.http import Http404
-from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.shortcuts import render
 from django.utils import timezone
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from rooms.models import Room
 
@@ -27,9 +22,14 @@ class HomeView(ListView):
         return context
 
 
-def room_detail(request, pk):
-    try:
-        room = Room.objects.get(pk=pk)
-        return render(request, 'rooms/detail.html', {'room':room})
-    except Room.DoesNotExist:
-        raise Http404()
+class RoomDetail(DetailView):
+    """ Room Detail Definition"""
+    model = Room
+
+# # FBV
+# def room_detail(request, pk):
+#     try:
+#         room = Room.objects.get(pk=pk)
+#         return render(request, 'rooms/detail.html', {'room':room})
+#     except Room.DoesNotExist:
+#         raise Http404()
