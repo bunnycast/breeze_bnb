@@ -1,8 +1,8 @@
 import requests
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
+from django.core.files.base import ContentFile
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
-from django.views import View
 from django.views.generic import FormView
 
 from settings import config
@@ -209,7 +209,7 @@ def kakao_callback(request):
         # 닉네임, 프로필 추출
         properties = profile_json.get("properties")
         nickname = properties.get("nickname")
-        thumbnail_image = properties.get("profile_image")
+        profile_image = properties.get("profile_image")
 
         try:
             # 이전에 카카오 계정으로 로그인 했는지 검증
@@ -227,6 +227,9 @@ def kakao_callback(request):
             )
             user.set_unusable_password()
             user.save()
+            if profile_image is not None:
+                photo_request = requests.get(profile_image)
+                user.avatar.save(f"{nickname}-avatar", ContentFile(photo_request.content))
         login(request, user)
         return redirect(reverse("core:home"))
 
