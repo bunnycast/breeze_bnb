@@ -67,3 +67,16 @@ class SignUpView(FormView):
             login(self.request, user)
         user.verify_email()
         return super().form_valid(form)
+
+
+def complete_verification(request, key):
+    try:
+        user = User.objects.get(email_secret=key)
+        user.email_verified = True
+        user.email_secret = ""
+        user.save()
+        # TODO : add success msg
+    except User.DoesNotExist:
+        # TODO : add error msg
+        pass
+    return redirect(reverse("core:home"))

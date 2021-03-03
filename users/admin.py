@@ -7,12 +7,23 @@ from users.models import User
 @admin.register(User)
 class UserAdmin(UserAdmin):
     """ Custom User Admin """
-    list_display = ('username', "email", 'gender', 'language', 'currency', 'is_superHost', )
-    list_filter = UserAdmin.list_filter + ('is_superHost',)
+
+    list_display = (
+        "username",
+        "email",
+        "gender",
+        "language",
+        "currency",
+        "is_superHost",
+        "email_verified",
+        "email_secret"
+    )
+    list_filter = UserAdmin.list_filter + ("is_superHost",)
 
     fieldsets = UserAdmin.fieldsets + (
         (
-            "Custom Profile", {
+            "Custom Profile",
+            {
                 "fields": (
                     "avatar",
                     "gender",
@@ -21,8 +32,7 @@ class UserAdmin(UserAdmin):
                     "language",
                     "currency",
                     "is_superHost",
-                    "email_verified",
                 )
-            }
+            },
         ),
     )
