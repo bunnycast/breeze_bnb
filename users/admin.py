@@ -16,7 +16,7 @@ class UserAdmin(UserAdmin):
         "currency",
         "is_superHost",
         "email_verified",
-        "email_secret"
+        'login_method',
     )
     list_filter = UserAdmin.list_filter + ("is_superHost",)
 
