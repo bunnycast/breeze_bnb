@@ -21,6 +21,7 @@ class UserAdmin(UserAdmin):
                     "language",
                     "currency",
                     "is_superHost",
+                    "email_verified",
                 )
             }
         ),

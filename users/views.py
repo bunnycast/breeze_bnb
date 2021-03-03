@@ -4,6 +4,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import FormView
 
+from users.models import User
 from users.forms import LoginForm, SignUpForm
 
 
@@ -49,11 +50,12 @@ class SignUpView(FormView):
     template_name = "users/signup.html"
     form_class = SignUpForm
     success_url = reverse_lazy("core:home")
+    count = User.objects.count()
 
     initial = {
-        "first_name": "Daniel",
-        "last_name": "Kim",
-        "email": "abc@g.com",
+        "first_name": "user",
+        "last_name": f"test{count}",
+        "email": f"berzzubunny+test{count}@gmail.com",
     }
 
     def form_valid(self, form):
@@ -63,5 +65,5 @@ class SignUpView(FormView):
         user = authenticate(self.request, username=email, password=password)
         if user is not None:
             login(self.request, user)
-            return redirect(reverse("core:home"))
+        user.verify_email()
         return super().form_valid(form)

@@ -1,5 +1,10 @@
+import uuid
+
 from django.contrib.auth.models import AbstractUser
+from django.core.mail import send_mail
 from django.db import models
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 
 class User(AbstractUser):
@@ -12,37 +17,44 @@ class User(AbstractUser):
     GENDER_CHOICES = (
         (GENDER_MALE, "Male"),
         (GENDER_FEMALE, "Female"),
-        (GENDER_OTHER, "Other")
+        (GENDER_OTHER, "Other"),
     )
 
     LANGUAGE_ENGLISH = "EN"
     LANGUAGE_KOREAN = "KR"
 
-    LANGUAGE_CHOICES = (
-        (LANGUAGE_ENGLISH, "English"),
-        (LANGUAGE_KOREAN, "Korean")
-    )
+    LANGUAGE_CHOICES = ((LANGUAGE_ENGLISH, "English"), (LANGUAGE_KOREAN, "Korean"))
 
     CURRENCY_USD = "usd"
     CURRENCY_KRW = "krw"
 
-    CURRENCY_CHOICES = (
-        (CURRENCY_USD, "USD"),
-        (CURRENCY_KRW, "KRW")
-    )
+    CURRENCY_CHOICES = ((CURRENCY_USD, "USD"), (CURRENCY_KRW, "KRW"))
 
-    avatar = models.ImageField(blank=True, upload_to='avatars')
+    avatar = models.ImageField(blank=True, upload_to="avatars")
     gender = models.CharField(choices=GENDER_CHOICES, max_length=10, blank=True)
     bio = models.TextField(blank=True)
     birthday = models.DateField(blank=True, null=True)
-    language = models.CharField(choices=LANGUAGE_CHOICES, max_length=2, blank=True, default=LANGUAGE_KOREAN)
-    currency = models.CharField(choices=CURRENCY_CHOICES, max_length=3, blank=True, default=CURRENCY_KRW)
+    language = models.CharField(
+        choices=LANGUAGE_CHOICES, max_length=2, blank=True, default=LANGUAGE_KOREAN
+    )
+    currency = models.CharField(
+        choices=CURRENCY_CHOICES, max_length=3, blank=True, default=CURRENCY_KRW
+    )
     is_superHost = models.BooleanField(default=False)
-    email_confirmed = models.BooleanField(default=False)
+    email_verified = models.BooleanField(default=False)
     email_secret = models.CharField(max_length=120, default="", blank=True)
 
     def verify_email(self):
-        # TODO : 인증 번호 email_secret 생성
-        # TODO : send_mail by using Sendgrid
-        pass
-
+        if self.email_verified is False:
+            secret = uuid.uuid4().hex[:20]
+            self.email_secret = secret
+            html_message = render_to_string("emails/verify_email.html", {"secret": secret})
+            send_mail(
+                "Verify Breeze_bnb Account",
+                strip_tags(html_message),
+                "bunnycast@naver.com",
+                [self.email],
+                fail_silently=True,
+                html_message=html_message,
+            )
+        return
