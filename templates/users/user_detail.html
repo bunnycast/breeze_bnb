@@ -10,13 +10,13 @@
 {% block content %}
 
     <div>
-    {% if user_obj.avatar %}
-        <img src="{{ user_obj.avatar.url }}" />
-    {% else %}
-        <div>
-            <span>{{ user_obj.first_name|first }}</span>
-        </div>
-    {% endif %}
+        {% if user_obj.avatar %}
+            <img src="{{ user_obj.avatar.url }}"/>
+        {% else %}
+            <div>
+                <span>{{ user_obj.first_name|first }}</span>
+            </div>
+        {% endif %}
     </div>
 
     <div>
@@ -28,6 +28,24 @@
 
     <span>{{ user_obj.bio }}</span>
 
-    <a href="#" class="btn">Edit Profile</a>
+    {% if user == user_obj %}
+        <a href="{% url "users:update" %}" class="btn">Edit Profile</a>
+    {% endif %}
 
+    <div>
+        {% if user_obj.rooms.count > 0 %}
+            <h3>{{ user_obj.first_name }}</h3>
+            <div>
+                {% for room in user_obj.rooms.all %}
+                    <ul>
+                        <li><strong>{{ room.name }}</strong></li>
+                        <li>{{ room.city }}, {{ room.country.name }}</li>
+                        <li>{{ room.total_rating }}</li>
+                    </ul>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h3>"There is no room."</h3>
+        {% endif %}
+    </div>
 {% endblock %}

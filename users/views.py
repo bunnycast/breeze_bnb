@@ -1,5 +1,6 @@
 import requests
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import PasswordChangeView
 from django.core.files.base import ContentFile
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
@@ -133,7 +134,6 @@ def github_callback(request):
                     name = profile_json.get("name")
                     email = email_json[0].get("email")
                     bio = profile_json.get("bio")
-                    print(email)
 
                     # blank 검증
                     name = "" if name is None else name
@@ -244,7 +244,29 @@ class UserProfileView(DetailView):
     # 현재 로그인한 유저 호출
     context_object_name = "user_obj"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["hello"] = "Hello!"
-        return context
+
+class UpdateUserProfileView(UpdateView):
+    model = User
+    template_name = "users/update-profile.html"
+    context_object_name = "user_obj"
+    fields = (
+        "first_name",
+        "last_name",
+        "avatar",
+        "bio",
+        "gender",
+        "birthday",
+        "language",
+        "currency",
+    )
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_success_url(self):
+        return reverse_lazy("users:profile", args=(self.request.user.pk,))
+
+
+class UpdateUserPasswordView(PasswordChangeView):
+    template_name = "users/update-password.html"
+    success_url = reverse_lazy("users:update")
