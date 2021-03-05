@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    {{ user_obj.first_name }}'s Profile
+{% endblock page_title %}
+
+{% block search-bar %}
+{% endblock search-bar %}
+
+{% block content %}
+
+    <div>
+    {% if user_obj.avatar %}
+        <img src="{{ user_obj.avatar.url }}" />
+    {% else %}
+        <div>
+            <span>{{ user_obj.first_name|first }}</span>
+        </div>
+    {% endif %}
+    </div>
+
+    <div>
+        <span>{{ user_obj.first_name }}</span>
+        {% if user_obj.is_superHost %}
+            "V"
+        {% endif %}
+    </div>
+
+    <span>{{ user_obj.bio }}</span>
+
+    <a href="#" class="btn">Edit Profile</a>
+
+{% endblock %}
