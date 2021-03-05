@@ -21,6 +21,7 @@ class LoginForm(forms.Form):
         except User.DoesNotExist:
             self.add_error("email", forms.ValidationError("User does not exist."))
 
+
 """
 # Refactoring by UserCreationForm
 class SignUpForm(UserCreationForm):
@@ -36,9 +37,9 @@ class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
         fields = (
-            'first_name',
-            'last_name',
-            'email',
+            "first_name",
+            "last_name",
+            "email",
         )
 
     password = forms.CharField(widget=forms.PasswordInput)
@@ -60,7 +61,6 @@ class SignUpForm(forms.ModelForm):
         user.username = email
         user.set_password(password)
         user.save()
-
 
     """
     # refactoring by ModelForms

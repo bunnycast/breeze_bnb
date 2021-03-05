@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, View
 from django_countries import countries
@@ -46,7 +46,7 @@ class EditRoom(UpdateView):
 
     model = Room
     template_name = "rooms/room_edit.html"
-    success_url = "/"
+    success_url = reverse_lazy("core:home")
     fields = (
         "name",
         "description",
@@ -72,7 +72,7 @@ class EditRoom(UpdateView):
 class CreateRoom(CreateView):
     model = Room
     template_name = "rooms/room_create.html"
-    success_url = "/"
+    success_url = reverse_lazy("core:home")
     fields = (
         "name",
         "description",
