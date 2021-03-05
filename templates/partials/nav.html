@@ -1,6 +1,7 @@
 <a href="{% url "core:home" %}">Breeze_bnb</a>
 <ul>
     {% if user.is_authenticated %}
+        <li><a href="{% url "users:profile" user.pk %}">Profile</a></li>
         <li><a href="{% url "users:logout" %}">Log out</a></li>
     {% else %}
         <li><a href="{% url "users:login" %}">Log in</a></li>

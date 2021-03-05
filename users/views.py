@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.files.base import ContentFile
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import FormView
+from django.views.generic import FormView, DetailView, UpdateView
 
 from settings import config
 from users.models import User
@@ -229,9 +229,22 @@ def kakao_callback(request):
             user.save()
             if profile_image is not None:
                 photo_request = requests.get(profile_image)
-                user.avatar.save(f"{nickname}-avatar", ContentFile(photo_request.content))
+                user.avatar.save(
+                    f"{nickname}-avatar", ContentFile(photo_request.content)
+                )
         login(request, user)
         return redirect(reverse("core:home"))
 
     except KakaoException:
         return redirect(reverse("users:login"))
+
+
+class UserProfileView(DetailView):
+    model = User
+    # 현재 로그인한 유저 호출
+    context_object_name = "user_obj"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["hello"] = "Hello!"
+        return context
