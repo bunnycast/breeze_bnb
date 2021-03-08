@@ -326,4 +326,7 @@ config.json
 # docker
 docker/
 
+# node module
+node_modules/
+
 # End of https://www.toptal.com/developers/gitignore/api/python,django,pycharm

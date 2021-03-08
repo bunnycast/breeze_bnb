@@ -1,0 +1,23 @@
+{
+  "name": "breeze_bnb",
+  "version": "1.0.0",
+  "description": "## Feature - Room : 생성, 수정, 삭제, 목록, 상세 페이지, 정렬 - Review : 생성, 수정, 삭제, 목록, 리뷰 상세 - Reservation : 생성, 수정, 삭제, 호스트 승인 - User : 생성, 소셜로그인, 로그인/로그아웃 메시지 주고받기, 비밀번호 수정 - Message : 생성, 수정, 삭제, 메시지 확인 - Follow : 팔로잉/팔로워 생성, 수정, 삭",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bunnycast/breeze_bnb.git"
+  },
+  "scripts": {
+    "css": "gulp"
+  },
+  "homepage": "https://github.com/bunnycast/breeze_bnb#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.2.5",
+    "gulp": "^4.0.2",
+    "gulp-csso": "^4.0.1",
+    "gulp-postcss": "^9.0.0",
+    "gulp-sass": "^4.1.0",
+    "node-sass": "^5.0.0",
+    "postcss": "^8.2.7",
+    "tailwindcss": "^2.0.3"
+  }
+}
