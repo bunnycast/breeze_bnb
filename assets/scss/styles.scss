@@ -1,4 +1,17 @@
 // tailwind scss init, 수정 이후 npm run css 해줘야 styles.css 파일에 변경 사항 적용 > frontend 반영됨
 @tailwind base;
 @tailwind components;
+
+// custom style
+.search-box {
+  transition: box-shadow 0.2s linear;
+}
+
+.nav_link {
+  @apply ml-8 border-b-2 border-white hover:border-gray-600 h-full flex items-center;
+  a {
+    @apply py-10 px-5;
+  }
+}
+
 @tailwind utilities;
