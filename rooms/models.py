@@ -98,3 +98,8 @@ class Room(core_models.TimeStampedModel):
         except ZeroDivisionError:
             rating = '-'
         return rating
+
+    def first_photo(self):
+        # Array unpacking
+        photo, = self.photos.all()[:1]
+        return photo.file.url
