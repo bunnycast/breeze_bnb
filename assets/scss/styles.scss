@@ -14,4 +14,18 @@
   }
 }
 
+.btn {
+  @apply text-center rounded-sm py-5 text-lg font-light w-full;
+}
+
+input {
+  @apply rounded-sm py-5 text-lg font-light w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-breeze_bnb mb-3;
+}
+
+form {
+  input {
+    @apply mb-3;
+  }
+}
+
 @tailwind utilities;

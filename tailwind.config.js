@@ -13,7 +13,10 @@ module.exports = {
       },
       textColor: {
         "breeze_bnb": "#00d195",
-      }
+      },
+      borderColor: {
+        "breeze_bnb": "#00d195",
+      },
     },
   },
   variants: {

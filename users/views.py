@@ -55,11 +55,11 @@ class SignUpView(FormView):
     success_url = reverse_lazy("core:home")
     count = User.objects.last().pk
 
-    initial = {
-        "first_name": "user",
-        "last_name": f"test{count}",
-        "email": f"berzzubunny+test{count}@gmail.com",
-    }
+    # initial = {
+    #     "first_name": "user",
+    #     "last_name": f"test{count}",
+    #     "email": f"berzzubunny+test{count}@gmail.com",
+    # }
 
     def form_valid(self, form):
         form.save()
