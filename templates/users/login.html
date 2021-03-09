@@ -13,10 +13,26 @@
 
         <form method="POST" action="{% url "users:login" %}" class="w-full">
             {% csrf_token %}
-            {{ form.email }}
-            {{ form.password }}
-{#            <input type="email" placeholder="Email Address" />#}
-{#            <input type="password" placeholder="Password" />#}
+
+            <div class="input">
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <span class="text-red-700 font-medium text-sm">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            {% for field in form %}
+                <div class="input {% if field.errors %}has_error{% endif %}">
+                    {{ field }}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <span class="text-red-700 font-medium text-sm">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+
             <button class="btn bg-red-500 text-white">Login</button>
         </form>
 

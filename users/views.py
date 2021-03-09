@@ -53,8 +53,8 @@ class SignUpView(FormView):
     template_name = "users/signup.html"
     form_class = SignUpForm
     success_url = reverse_lazy("core:home")
-    count = User.objects.last().pk
 
+    # count = User.objects.last().pk
     # initial = {
     #     "first_name": "user",
     #     "last_name": f"test{count}",
