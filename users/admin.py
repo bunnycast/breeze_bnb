@@ -32,6 +32,7 @@ class UserAdmin(UserAdmin):
                     "language",
                     "currency",
                     "is_superHost",
+                    "login_method",
                 )
             },
         ),
