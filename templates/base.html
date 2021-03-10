@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <link rel="icon" href="/static/img/favicon.ico">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"/>
     <link rel="stylesheet" href="{% static "css/styles.css" %}"/>
     <title> {% block page_title %}{% endblock page_title %}| Breeze_bnb</title>
 </head>
@@ -18,7 +18,8 @@
         </a>
         {% block search-bar %}
             <form method="GET" action="{% url 'rooms:search' %}" class="w-9/12">
-                <input class="search-box border px-5 w-full font-medium text-gray-900 placeholder-gray-600 py-3 rounded-sm w-64 shadow-md hover:shadow-lg focus-within:outline-none" id="city" name="city" placeholder="Search by City" />
+                <input class="search-box border px-5 w-full font-medium text-gray-900 placeholder-gray-600 py-3 rounded-sm w-64 shadow-md hover:shadow-lg focus-within:outline-none"
+                       id="city" name="city" placeholder="Search by City"/>
             </form>
         {% endblock search-bar %}
     </div>
@@ -28,6 +29,7 @@
 </header>
 {% block content %}
 {% endblock content %}
+{% include "partials/messages.html" %}
 {% include 'partials/footer.html' %}
 </body>
 </html>

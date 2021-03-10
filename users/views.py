@@ -2,6 +2,7 @@ import requests
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import PasswordChangeView
 from django.core.files.base import ContentFile
+from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import FormView, DetailView, UpdateView
@@ -180,9 +181,10 @@ class KakaoException(Exception):
 
 def kakao_callback(request):
     try:
+        raise KakaoException()
+        code = request.GET.get("code")
         client_id = config["K_KEY"]
         redirect_uri = "http://127.0.0.1:8000/users/login/kakao/callback"
-        code = request.GET.get("code")
         token_request = requests.get(
             f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}"
         )
@@ -236,6 +238,7 @@ def kakao_callback(request):
         return redirect(reverse("core:home"))
 
     except KakaoException:
+        messages.error(request, "Something wrong")
         return redirect(reverse("users:login"))
 
 
