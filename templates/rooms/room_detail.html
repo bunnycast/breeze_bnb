@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block page_title %}
     {{ room.name }}
@@ -8,6 +9,9 @@
     <div>
         <h1>{{ room.name }}</h1>
         <h3>{{ room.description }}</h3>
+    </div>
+    <div>
+        <a class="block btn-link w-1/5 my-3" href="{% url "lists:save-room" room.pk%}">{% trans "Save to Favorite" %}</a>
     </div>
     <div>
         <h2>By: <a href="{{ room.host.get_absolute_url }}">{{ room.host.username }}</a>
