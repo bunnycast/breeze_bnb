@@ -17,6 +17,10 @@ module.exports = {
       borderColor: {
         "breeze_bnb": "#00d195",
       },
+      minHeight: {
+        "50vh": "50vh",
+        "75vh": "75vh",
+      }
     },
   },
   variants: {
