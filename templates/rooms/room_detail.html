@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load on_favs %}
 
 {% block page_title %}
     {{ room.name }}
@@ -11,8 +11,14 @@
         <h3>{{ room.description }}</h3>
     </div>
     <div>
-        <a class="block btn-link w-1/5 my-3" href="{% url "lists:save-room" room.pk%}">{% trans "Save to Favorite" %}</a>
+    {% on_favs room as on_favs_boolean %}
+    {% if on_favs_boolean %}
+        <a class="block btn-link w-1/5 my-3 bg-green-500" href="{% url "lists:toggle-room" room.pk%}?action=remove">Remove to Favorite</a>
+    {% else %}
+        <a class="block btn-link w-1/5 my-3" href="{% url "lists:toggle-room" room.pk%}?action=add">Save to Favorite</a>
+    {% endif %}
     </div>
+
     <div>
         <h2>By: <a href="{{ room.host.get_absolute_url }}">{{ room.host.username }}</a>
             {% if room.host.is_superHost %}
