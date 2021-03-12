@@ -145,7 +145,9 @@ def github_callback(request):
                         user = User.objects.get(email=email)
                         if user.login_method != User.LOGIN_GITHUB:
                             # 다른 방식으로 같은 메일을 사용하여 소셜 로그인을 한 경우
-                            raise GithubException(f"Please log in with: {user.login_mehtod}")
+                            raise GithubException(
+                                f"Please log in with: {user.login_mehtod}"
+                            )
                     except User.DoesNotExist:
                         # 신규 소셜 로그인 가입
                         user = User.objects.create(
@@ -191,9 +193,10 @@ def kakao_callback(request):
             f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}"
         )
         token_json = token_request.json()
+        print(token_json)
         error = token_json.get("error", None)
         if error is not None:
-            raise KakaoException()
+            raise KakaoException("not Token")
         access_token = token_json.get("access_token")
         profile_request = requests.get(
             "https://kapi.kakao.com/v2/user/me",
@@ -208,7 +211,7 @@ def kakao_callback(request):
 
         # 이메일 동의 안하면 나가리
         if email is None:
-            raise KakaoException("Can't get authorization code.")
+            raise KakaoException("Can't get authorization code. Please confirm your Email agreement.")
 
         # 닉네임, 프로필 추출
         properties = profile_json.get("properties")

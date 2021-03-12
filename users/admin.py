@@ -18,7 +18,7 @@ class UserAdmin(UserAdmin):
         "email_verified",
         'login_method',
     )
-    list_filter = UserAdmin.list_filter + ("is_superHost",)
+    list_filter = UserAdmin.list_filter + ("is_superHost", 'login_method',)
 
     fieldsets = UserAdmin.fieldsets + (
         (
