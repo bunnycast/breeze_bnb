@@ -1,21 +1,22 @@
 import requests
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.files.base import ContentFile
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import FormView, DetailView, UpdateView
 
+from mixins import LoggedOutOnlyView, LoggedInOnlyView, EmailLoginOnlyView
 from settings import config
 from users.models import User
 from users.forms import LoginForm, SignUpForm
 
 
-class LoginView(FormView):
+class LoginView(LoggedOutOnlyView, FormView):
     template_name = "users/login.html"
     form_class = LoginForm
-    success_url = reverse_lazy("core:home")
 
     def form_valid(self, form):
         email = form.cleaned_data.get("email")
@@ -25,6 +26,13 @@ class LoginView(FormView):
             login(self.request, user)
             return redirect(reverse("core:home"))
         return super().form_valid(form)
+
+    def get_success_url(self):
+        next_arg = self.request.GET.get("next")
+        if next_arg is not None:
+            return next_arg
+        else:
+            return reverse("core:home")
 
     """  Refactoring Using FormView 
     def get(self, request):
@@ -211,7 +219,9 @@ def kakao_callback(request):
 
         # 이메일 동의 안하면 나가리
         if email is None:
-            raise KakaoException("Can't get authorization code. Please confirm your Email agreement.")
+            raise KakaoException(
+                "Can't get authorization code. Please confirm your Email agreement."
+            )
 
         # 닉네임, 프로필 추출
         properties = profile_json.get("properties")
@@ -221,7 +231,7 @@ def kakao_callback(request):
         try:
             # 이전에 카카오 계정으로 로그인 했는지 검증
             user = User.objects.get(email=email)
-            if user.login_method == User.LOGIN_KAKAO:
+            if user.login_method != User.LOGIN_KAKAO:
                 raise KakaoException("Please also give me your email")
         except User.DoesNotExist:
             # 없으니까 계정 만듬
@@ -254,14 +264,14 @@ class UserProfileView(DetailView):
     context_object_name = "user_obj"
 
 
-class UpdateUserProfileView(UpdateView):
+class UpdateUserProfileView(LoggedInOnlyView, SuccessMessageMixin, UpdateView):
     model = User
     template_name = "users/update-profile.html"
     context_object_name = "user_obj"
+    success_message = "Update Profile Success!"
     fields = (
         "first_name",
         "last_name",
-        "avatar",
         "bio",
         "gender",
         "birthday",
@@ -276,6 +286,18 @@ class UpdateUserProfileView(UpdateView):
         return reverse_lazy("users:profile", args=(self.request.user.pk,))
 
 
-class UpdateUserPasswordView(PasswordChangeView):
+class UpdateUserPasswordView(LoggedInOnlyView, EmailLoginOnlyView, SuccessMessageMixin, PasswordChangeView):
     template_name = "users/update-password.html"
-    success_url = reverse_lazy("users:update")
+    success_message = "Password Updated!"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "user_obj": self.request.user,
+            }
+        )
+        return context
+
+    def get_success_url(self):
+        return self.request.user.get_absolute_url()

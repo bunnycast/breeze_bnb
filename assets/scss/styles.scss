@@ -25,7 +25,9 @@
   @apply text-center py-3 rounded-lg font-light text-lg w-full text-white bg-red-500;
 }
 
-input {
+input,
+textarea,
+select {
   @apply rounded-sm py-5 text-lg font-light w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-breeze_bnb mb-3;
 }
 
@@ -38,6 +40,15 @@ form {
       }
     }
   }
+}
+
+textarea {
+  resize: none;
+  height: 100px;
+}
+
+select {
+  height: 50px;
 }
 
 @keyframes messageFadeIn {
@@ -61,15 +72,19 @@ form {
 
 .message {
   animation: messageFadeIn 5s ease-in-out forwards;
+
   &.error {
     @apply bg-red-600;
   }
+
   &.info {
     @apply bg-blue-500;
   }
+
   &.success {
     @apply bg-green-600;
   }
+
   &.warning {
     @apply bg-yellow-400;
   }
