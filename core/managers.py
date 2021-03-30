@@ -5,5 +5,5 @@ class CustomModelManager(models.Manager):
     def get_or_none(self, **kwargs):
         try:
             return self.get(**kwargs)
-        except Exception as e:
-            pass
+        except self.model.DoesNotExist:
+            return None
