@@ -8,6 +8,7 @@ from django_countries import countries
 
 from rooms.forms import SearchForm
 from rooms.models import Room, RoomType, Amenity, Facility, HouseRule
+from users import mixins
 
 
 class HomeView(ListView):
@@ -41,7 +42,7 @@ class RoomDetail(DetailView):
 #         raise Http404()
 
 
-class EditRoom(UpdateView):
+class EditRoom(mixins.LoggedInOnlyView, UpdateView):
     """ Room Edit Definition"""
 
     model = Room
