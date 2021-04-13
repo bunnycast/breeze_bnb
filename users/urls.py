@@ -1,7 +1,7 @@
 from django.urls import path
 
 from users.views import LoginView, log_out, SignUpView, complete_verification, github_login, github_callback, \
-    kakao_callback, kakao_login, UserProfileView, UpdateUserProfileView, UpdateUserPasswordView
+    kakao_callback, kakao_login, UserProfileView, UpdateUserProfileView, UpdateUserPasswordView, switch_hosting
 
 app_name = "users"
 
@@ -17,4 +17,5 @@ urlpatterns = [
     path("<int:pk>/", UserProfileView.as_view(), name="profile"),
     path("update-profile/", UpdateUserProfileView.as_view(), name="update"),
     path("update-password/", UpdateUserPasswordView.as_view(), name="update-password"),
+    path("switch-hosting/", switch_hosting, name="switch-hosting"),
 ]

@@ -8,7 +8,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, FormView, View
 
-from rooms.forms import SearchForm, CreatePhotoForm
+from rooms.forms import SearchForm, CreatePhotoForm, CreateRoomForm
 from rooms.models import Room, RoomType, Amenity, Facility, HouseRule, Photo
 from users import mixins
 
@@ -133,30 +133,18 @@ class AddPhotoView(mixins.LoggedInOnlyView, SuccessMessageMixin, FormView):
         return redirect(reverse("rooms:photos", kwargs={"pk": pk}))
 
 
-class CreateRoom(CreateView):
-    model = Room
+class CreateRoomView(mixins.LoggedInOnlyView, FormView):
+    form_class = CreateRoomForm
     template_name = "rooms/room_create.html"
-    success_url = reverse_lazy("core:home")
-    fields = (
-        "name",
-        "description",
-        "country",
-        "city",
-        "price",
-        "address",
-        "guests",
-        "beds",
-        "bedrooms",
-        "baths",
-        "check_in",
-        "check_out",
-        "instant_book",
-        "host",
-        "room_type",
-        "amenities",
-        "facilities",
-        "house_rules",
-    )
+
+    def form_valid(self, form):
+        room = form.save(self.request.user)
+        room.host = self.request.user
+        room.save()
+        # many to many field save method
+        form.save_m2m()
+        messages.success(self.request, "Room Created")
+        return redirect(reverse("rooms:detail", kwargs={"pk": room.pk}))
 
 
 class SearchView(View):

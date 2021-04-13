@@ -1,11 +1,11 @@
 from django.urls import path
 
-from rooms.views import RoomDetail, EditRoomView, CreateRoom, SearchView, RoomPhotosView, delete_photo, EditPhotoView, AddPhotoView
+from rooms.views import RoomDetail, EditRoomView, CreateRoomView, SearchView, RoomPhotosView, delete_photo, EditPhotoView, AddPhotoView
 
 app_name = "rooms"
 
 urlpatterns = [
-    path("create/", CreateRoom.as_view(), name="create"),
+    path("create/", CreateRoomView.as_view(), name="create"),
     path("<int:pk>/", RoomDetail.as_view(), name="detail"),
     path("<int:pk>/edit/", EditRoomView.as_view(), name="edit"),
     path("<int:pk>/photos/", RoomPhotosView.as_view(), name="photos"),
