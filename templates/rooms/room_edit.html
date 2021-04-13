@@ -7,5 +7,8 @@
 {% block content %}
     <div class="container lg:w-5/12 md:w-1/2 xl:w-1/4 mx-auto mt-32 mb-10 flex flex-col items-center border p-6 border-gray-400">
         {% include "mixins/room/room_form.html" with form=form cta="Update Room" %}
+        <div class="mt-5">
+            <a href="{% url "rooms:photos" room.pk %}" class="text-breeze_bnb font-medium">Edit Photos</a>
+        </div>
     </div>
 {% endblock content %}
